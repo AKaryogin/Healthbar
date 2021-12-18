@@ -6,34 +6,36 @@ using UnityEngine.UI;
 public class Healthbar : MonoBehaviour
 {
     [SerializeField] private Slider _health;
-    [SerializeField] private float _heal;
-    [SerializeField] private float _damage;
 
     private Coroutine _currentCoroutine;
     private bool _isHeal = false;
 
-    public void Heal()
+    public void SetHealthPoint(float health)
     {
-        if(_currentCoroutine != null && _isHeal == false)
+        float differenceHealth = health - _health.value;
+
+        if(_currentCoroutine != null)
         {
-            StopCoroutine(_currentCoroutine);
-            _isHeal = true;
+            if(_isHeal)
+            {
+                StopCoroutine(_currentCoroutine);
+                _isHeal = false;
+            }
+            else
+            {
+                StopCoroutine(_currentCoroutine);
+                _isHeal = true;
+            }
         }
 
-        if(_health.value < 100)
-            _currentCoroutine = StartCoroutine(SetHealthUp(_heal));
-    }
-
-    public void Damage()
-    {
-        if(_currentCoroutine != null && _isHeal)
+        if(differenceHealth > 0)
         {
-            StopCoroutine(_currentCoroutine);
-            _isHeal = false;
+            _currentCoroutine = StartCoroutine(SetHealthUp(Mathf.Abs(differenceHealth)));
         }
-
-        if(_health.value > 0)
-            _currentCoroutine = StartCoroutine(SetHealthDown(_damage));
+        else
+        {      
+            _currentCoroutine = StartCoroutine(SetHealthDown(Mathf.Abs(differenceHealth)));
+        }
     }
 
     private IEnumerator SetHealthUp(float amountHealthPoint)
