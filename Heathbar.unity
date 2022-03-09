@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1038694477}
         m_TargetAssemblyTypeName: PlayerHealth, Assembly-CSharp
-        m_MethodName: ApplyDamage
+        m_MethodName: Damage
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -540,8 +540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73f8968cf3dc6745b056cc5fd23462c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 100
-  _healthbar: {fileID: 2079417546}
+  _health: 75
+  _maxHealth: 100
 --- !u!1 &1413265465
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +827,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1038694477}
         m_TargetAssemblyTypeName: PlayerHealth, Assembly-CSharp
-        m_MethodName: ApplyHeal
+        m_MethodName: Heal
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1070,6 +1070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: 1413265467}
+  _playerHealth: {fileID: 1038694477}
 --- !u!1 &2106380278
 GameObject:
   m_ObjectHideFlags: 0

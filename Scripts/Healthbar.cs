@@ -6,57 +6,40 @@ using UnityEngine.UI;
 public class Healthbar : MonoBehaviour
 {
     [SerializeField] private Slider _health;
+    [SerializeField] private PlayerHealth _playerHealth;
 
-    private Coroutine _currentCoroutine;
-    private bool _isHeal = false;
+    private Coroutine _currentCoroutine;    
 
-    public void SetHealthPoint(float health)
+    private void OnEnable()
     {
-        float differenceHealth = health - _health.value;
+        _playerHealth.SetHealth += OnSetHealth;
+        _health.maxValue = _playerHealth.MaxHealth;
+        _health.value = _playerHealth.Health;
+    }
 
+    private void OnDisable()
+    {
+        _playerHealth.SetHealth -= OnSetHealth;
+    }
+
+    public void OnSetHealth(float health)
+    {
         if(_currentCoroutine != null)
-        {
-            if(_isHeal)
-            {
-                StopCoroutine(_currentCoroutine);
-                _isHeal = false;
-            }
-            else
-            {
-                StopCoroutine(_currentCoroutine);
-                _isHeal = true;
-            }
-        }
+            StopCoroutine(_currentCoroutine);
 
-        if(differenceHealth > 0)
-        {
-            _currentCoroutine = StartCoroutine(SetHealthUp(Mathf.Abs(differenceHealth)));
-        }
-        else
-        {      
-            _currentCoroutine = StartCoroutine(SetHealthDown(Mathf.Abs(differenceHealth)));
-        }
+        _currentCoroutine = StartCoroutine(SetHealth(health));
     }
 
-    private IEnumerator SetHealthUp(float amountHealthPoint)
+    private IEnumerator SetHealth(float healthPoint)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
+        float differenceHealth = Mathf.Abs(_health.value - healthPoint);        
 
-        for(int i = 0; i < amountHealthPoint; i++)
-        {            
-            _health.value += 1;
+        for(int i = 0; i < differenceHealth; i++)
+        {
+            _health.value = Mathf.MoveTowards(_health.value, healthPoint, 1);            
             yield return waitForSeconds;
         }
     }
 
-    private IEnumerator SetHealthDown(float amountHealthPoint)
-    {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
-
-        for(int i = 0; i < amountHealthPoint; i++)
-        {            
-            _health.value -= 1;
-            yield return waitForSeconds;
-        }
-    }
 }
