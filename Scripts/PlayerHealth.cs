@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
 
+    private const float MinHealth = 0;
+
     public event UnityAction<float> SetHealth;
 
     public float Health => _health;
@@ -15,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(float heal = 10)
     {
-        if(_health < 100)        
+        if(_health < _maxHealth)        
             _health += heal;
 
         if(_health > _maxHealth)
@@ -26,11 +28,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void Damage(float damage = 10)
     {
-        if(_health > 0)        
+        if(_health > MinHealth)        
             _health -= damage;
 
-        if(_health < 0)
-            _health = 0;
+        if(_health < MinHealth)
+            _health = MinHealth;
 
         SetHealth.Invoke(_health);
     }

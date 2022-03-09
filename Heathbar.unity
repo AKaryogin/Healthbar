@@ -1071,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: 1413265467}
   _playerHealth: {fileID: 1038694477}
+  _duration: 0.1
 --- !u!1 &2106380278
 GameObject:
   m_ObjectHideFlags: 0

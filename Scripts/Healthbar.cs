@@ -7,6 +7,7 @@ public class Healthbar : MonoBehaviour
 {
     [SerializeField] private Slider _health;
     [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private float _duration;
 
     private Coroutine _currentCoroutine;    
 
@@ -27,12 +28,12 @@ public class Healthbar : MonoBehaviour
         if(_currentCoroutine != null)
             StopCoroutine(_currentCoroutine);
 
-        _currentCoroutine = StartCoroutine(SetHealth(health));
+        _currentCoroutine = StartCoroutine(SetHealth(health, _duration));
     }
 
-    private IEnumerator SetHealth(float healthPoint)
+    private IEnumerator SetHealth(float healthPoint, float duration)
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(duration);
         float differenceHealth = Mathf.Abs(_health.value - healthPoint);        
 
         for(int i = 0; i < differenceHealth; i++)
