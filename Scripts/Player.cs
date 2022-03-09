@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerHealth : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
